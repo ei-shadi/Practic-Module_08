@@ -28,7 +28,24 @@ const getAllProfilesFromDB = async () => {
   return result;
 }
 
+const getProfileByUserIdFromDB = async (id: string) => {
+  const user_id = parseInt(id);
+  const result = await pool.query("SELECT * FROM profiles WHERE user_id = $1", [user_id]);
+
+  return result;
+};
+
+const deleteProfileByUserId = async (id: string) => {
+  const user_id = parseInt(id);
+  console.log(user_id)
+  const result = await pool.query(`DELETE FROM profiles WHERE user_id = $1`, [user_id]);
+
+  return result;
+};
+
 export const profileService = {
   createProfileIntoDB,
   getAllProfilesFromDB,
+  getProfileByUserIdFromDB,
+  deleteProfileByUserId,
 };

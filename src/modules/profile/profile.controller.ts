@@ -37,7 +37,52 @@ const getAllProfiles = async (req: Request, res: Response) => {
   }
 };
 
+const getProfileByUserId = async (req: Request, res: Response) => {
+  try {
+    console.log(req.params.id);
+
+    const { id } = req.params;
+
+    const result = await profileService.getProfileByUserIdFromDB(id as string);
+
+    res.status(200).json({
+      success: true,
+      message: "Profile retrieved successfully!",
+      data: result.rows[0],
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
+const deleteProfileByUserId = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const result = await profileService.deleteProfileByUserId(id as string);
+
+    res.status(200).json({
+      success: true,
+      message: "Profile deleted successfully!",
+      data: result.rows[0],
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
 export const profileController = {
   createProfile,
   getAllProfiles,
+  getProfileByUserId,
+  deleteProfileByUserId,
 };
+
